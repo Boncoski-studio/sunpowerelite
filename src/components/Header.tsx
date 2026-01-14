@@ -24,8 +24,8 @@ export default function Header() {
 
   const handleCustomerPortal = () => {
     toast({
-      title: "Portal em breve!",
-      description: "O portal do cliente estará disponível em breve.",
+      title: "Coming Soon!",
+      description: "The Customer Portal will be available shortly.",
     });
   };
 
