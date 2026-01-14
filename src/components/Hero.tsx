@@ -1,5 +1,6 @@
 import { ArrowRight, Shield, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { scrollToSection } from "@/lib/utils";
 
 export default function Hero() {
   return (
@@ -45,13 +46,17 @@ export default function Hero() {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Button className="btn-cta text-lg px-8 py-6 animate-pulse-glow">
+              <Button 
+                className="btn-cta text-lg px-8 py-6 animate-pulse-glow"
+                onClick={() => scrollToSection("contact")}
+              >
                 Get Your Free Quote
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
               <Button
                 variant="outline"
                 className="bg-transparent border-2 border-white/30 text-white hover:bg-white/10 px-8 py-6 text-lg"
+                onClick={() => scrollToSection("calculator")}
               >
                 Calculate Savings
               </Button>
