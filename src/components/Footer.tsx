@@ -1,33 +1,46 @@
 import { Sun, Leaf, Linkedin, Twitter, Instagram, MapPin, Phone, Mail } from "lucide-react";
+import { scrollToSection } from "@/lib/utils";
 
 const footerLinks = {
   company: [
-    { label: "About Us", href: "#" },
-    { label: "Careers", href: "#" },
-    { label: "Press", href: "#" },
-    { label: "Blog", href: "#" },
+    { label: "About Us", href: "#", isExternal: false },
+    { label: "Careers", href: "#", isExternal: false },
+    { label: "Press", href: "#", isExternal: false },
+    { label: "Blog", href: "#", isExternal: false },
   ],
   support: [
-    { label: "Help Center", href: "#" },
-    { label: "Contact Us", href: "#" },
-    { label: "System Monitoring", href: "#" },
-    { label: "Warranty Info", href: "#" },
+    { label: "Help Center", href: "#", isExternal: false },
+    { label: "Contact Us", href: "contact", isInternal: true },
+    { label: "System Monitoring", href: "#", isExternal: false },
+    { label: "Warranty Info", href: "#", isExternal: false },
   ],
   legal: [
-    { label: "Privacy Policy", href: "#" },
-    { label: "Terms of Service", href: "#" },
-    { label: "Cookie Policy", href: "#" },
-    { label: "Licensing", href: "#" },
+    { label: "Privacy Policy", href: "/privacy-policy", isPage: true },
+    { label: "Terms of Service", href: "/terms", isPage: true },
+    { label: "Cookie Policy", href: "#", isExternal: false },
+    { label: "Licensing", href: "#", isExternal: false },
   ],
 };
 
 const socialLinks = [
-  { icon: Linkedin, href: "#", label: "LinkedIn" },
-  { icon: Twitter, href: "#", label: "Twitter" },
-  { icon: Instagram, href: "#", label: "Instagram" },
+  { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
+  { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
+  { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
 ];
 
 export default function Footer() {
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, link: { href: string; isInternal?: boolean; isPage?: boolean }) => {
+    if (link.isInternal) {
+      e.preventDefault();
+      scrollToSection(link.href);
+    }
+    // For isPage links, let them navigate normally
+    // For external links (#), prevent default but don't do anything
+    if (!link.isInternal && !link.isPage && link.href === "#") {
+      e.preventDefault();
+    }
+  };
+
   return (
     <footer className="bg-primary text-primary-foreground">
       <div className="section-container py-12 md:py-16">
@@ -52,14 +65,14 @@ export default function Footer() {
                 <MapPin className="w-4 h-4 flex-shrink-0" />
                 <span>123 Solar Way, Austin, TX 78701</span>
               </div>
-              <div className="flex items-center gap-3">
+              <a href="tel:+18007867693" className="flex items-center gap-3 hover:text-white transition-colors">
                 <Phone className="w-4 h-4 flex-shrink-0" />
                 <span>(800) SUN-POWER</span>
-              </div>
-              <div className="flex items-center gap-3">
+              </a>
+              <a href="mailto:hello@sunpowerelite.com" className="flex items-center gap-3 hover:text-white transition-colors">
                 <Mail className="w-4 h-4 flex-shrink-0" />
                 <span>hello@sunpowerelite.com</span>
-              </div>
+              </a>
             </div>
 
             {/* Social Links */}
@@ -68,6 +81,8 @@ export default function Footer() {
                 <a
                   key={social.label}
                   href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={social.label}
                   className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent hover:text-accent-foreground transition-colors"
                 >
@@ -85,6 +100,7 @@ export default function Footer() {
                 <li key={link.label}>
                   <a
                     href={link.href}
+                    onClick={(e) => handleLinkClick(e, link)}
                     className="text-emerald-200 hover:text-white transition-colors"
                   >
                     {link.label}
@@ -100,7 +116,8 @@ export default function Footer() {
               {footerLinks.support.map((link) => (
                 <li key={link.label}>
                   <a
-                    href={link.href}
+                    href={link.isInternal ? `#${link.href}` : link.href}
+                    onClick={(e) => handleLinkClick(e, link)}
                     className="text-emerald-200 hover:text-white transition-colors"
                   >
                     {link.label}
@@ -117,6 +134,7 @@ export default function Footer() {
                 <li key={link.label}>
                   <a
                     href={link.href}
+                    onClick={(e) => handleLinkClick(e, link)}
                     className="text-emerald-200 hover:text-white transition-colors"
                   >
                     {link.label}

@@ -2,16 +2,36 @@ import { useState } from "react";
 import { Menu, X, Sun, Leaf } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useToast } from "@/hooks/use-toast";
+import { scrollToSection } from "@/lib/utils";
 
 const navLinks = [
-  { label: "How It Works", href: "#how-it-works" },
-  { label: "Calculator", href: "#calculator" },
-  { label: "Plans", href: "#plans" },
-  { label: "Contact", href: "#contact" },
+  { label: "How It Works", href: "how-it-works" },
+  { label: "Calculator", href: "calculator" },
+  { label: "Plans", href: "plans" },
+  { label: "Contact", href: "contact" },
 ];
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const { toast } = useToast();
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    scrollToSection(href);
+    setIsOpen(false);
+  };
+
+  const handleCustomerPortal = () => {
+    toast({
+      title: "Portal em breve!",
+      description: "O portal do cliente estará disponível em breve.",
+    });
+  };
+
+  const handleGetQuote = () => {
+    scrollToSection("contact");
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-border">
@@ -31,7 +51,8 @@ export default function Header() {
             {navLinks.map((link) => (
               <a
                 key={link.label}
-                href={link.href}
+                href={`#${link.href}`}
+                onClick={(e) => handleNavClick(e, link.href)}
                 className="text-muted-foreground hover:text-primary font-medium transition-colors"
               >
                 {link.label}
@@ -41,10 +62,12 @@ export default function Header() {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center gap-3">
-            <Button variant="ghost" className="btn-ghost">
+            <Button variant="ghost" className="btn-ghost" onClick={handleCustomerPortal}>
               Customer Portal
             </Button>
-            <Button className="btn-cta">Get Free Quote</Button>
+            <Button className="btn-cta" onClick={handleGetQuote}>
+              Get Free Quote
+            </Button>
           </div>
 
           {/* Mobile Menu */}
@@ -60,8 +83,8 @@ export default function Header() {
                   {navLinks.map((link) => (
                     <a
                       key={link.label}
-                      href={link.href}
-                      onClick={() => setIsOpen(false)}
+                      href={`#${link.href}`}
+                      onClick={(e) => handleNavClick(e, link.href)}
                       className="text-lg font-medium text-foreground hover:text-primary transition-colors py-2"
                     >
                       {link.label}
@@ -69,10 +92,10 @@ export default function Header() {
                   ))}
                 </nav>
                 <div className="flex flex-col gap-3 pt-4 border-t border-border">
-                  <Button variant="outline" className="w-full justify-center">
+                  <Button variant="outline" className="w-full justify-center" onClick={handleCustomerPortal}>
                     Customer Portal
                   </Button>
-                  <Button className="btn-cta w-full justify-center">
+                  <Button className="btn-cta w-full justify-center" onClick={handleGetQuote}>
                     Get Free Quote
                   </Button>
                 </div>

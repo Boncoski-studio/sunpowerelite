@@ -3,6 +3,7 @@ import { Calculator, TrendingUp, DollarSign } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { scrollToSection } from "@/lib/utils";
 
 export default function SavingsCalculator() {
   const [monthlyBill, setMonthlyBill] = useState(250);
@@ -108,7 +109,7 @@ export default function SavingsCalculator() {
                 </div>
                 <div className="h-10 md:h-12 bg-muted rounded-lg overflow-hidden">
                   <div
-                    className="h-full bg-gradient-to-r from-red-500 to-red-400 rounded-lg transition-all duration-500 flex items-center justify-end pr-3"
+                    className="h-full bg-gradient-to-r from-red-500 to-red-400 rounded-lg transition-all duration-500 ease-out flex items-center justify-end pr-3"
                     style={{ width: `${utilityBarWidth}%` }}
                   >
                     <span className="text-white text-sm font-medium hidden sm:block">
@@ -128,7 +129,7 @@ export default function SavingsCalculator() {
                 </div>
                 <div className="h-10 md:h-12 bg-muted rounded-lg overflow-hidden">
                   <div
-                    className="h-full bg-gradient-to-r from-primary to-emerald-500 rounded-lg transition-all duration-500 flex items-center justify-end pr-3"
+                    className="h-full bg-gradient-to-r from-primary to-emerald-500 rounded-lg transition-all duration-500 ease-out flex items-center justify-end pr-3"
                     style={{ width: `${solarBarWidth}%` }}
                   >
                     <span className="text-white text-sm font-medium hidden sm:block">
@@ -152,7 +153,10 @@ export default function SavingsCalculator() {
 
             {/* CTA */}
             <div className="text-center">
-              <Button className="btn-cta text-lg px-8 py-6">
+              <Button 
+                className="btn-cta text-lg px-8 py-6"
+                onClick={() => scrollToSection("contact")}
+              >
                 <DollarSign className="w-5 h-5 mr-2" />
                 Get Your Exact Quote
               </Button>
